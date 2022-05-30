@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 78b0588b8a0a4bd4d8a47f5f75d2e224
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - positions: {instanceID: 0}
+  - _text: {instanceID: 0}
+  - _finaleScore: {instanceID: 0}
+  - _levelEnemyList: {instanceID: 0}
+  - _count: {instanceID: 0}
+  - _completedPlan: {instanceID: 0}
+  - _missionComp: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
