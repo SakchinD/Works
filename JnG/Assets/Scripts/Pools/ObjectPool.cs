@@ -12,39 +12,40 @@ public class ObjectPool : Singleton<ObjectPool>
         public GameObject Object;
     }
     public List<KeyValue> objects = new List<KeyValue>();
-    Dictionary<string, List<GameObject>> ammoDict = new Dictionary<string, List<GameObject>>();
+    private Dictionary<string, List<GameObject>> _ammoDict = new Dictionary<string, List<GameObject>>();
 
     void CreateBullet(string ObjectName)
     {
-        if (!ammoDict.ContainsKey(ObjectName))
-        {
-            ammoDict.Add(ObjectName, new List<GameObject>());
-        }
         var obj = objects.Find(item => item.ObjectName == ObjectName);
         if (obj.Object)
         {
-            var _bullet = Instantiate(obj.Object);
-            _bullet.transform.SetParent(transform);
-            _bullet.gameObject.SetActive(false);
-            ammoDict[ObjectName].Add(_bullet);
+            if (!_ammoDict.ContainsKey(ObjectName))
+            {
+                _ammoDict.Add(ObjectName, new List<GameObject>());
+            }
+            var bullet = Instantiate(obj.Object);
+            bullet.transform.SetParent(transform);
+            bullet.gameObject.SetActive(false);
+            _ammoDict[ObjectName].Add(bullet);
         }
+        else Debug.LogError("NO Object find");
     }
     public GameObject GetPooledObject(string ObjectName)
     {
-        if (ammoDict.ContainsKey(ObjectName))
+        if (_ammoDict.ContainsKey(ObjectName))
         {
-            for (int i = 0; i < ammoDict[ObjectName].Count; i++)
+            for (int i = 0; i < _ammoDict[ObjectName].Count; i++)
             {
-                if (!ammoDict[ObjectName][i].gameObject.activeInHierarchy)
+                if (!_ammoDict[ObjectName][i].gameObject.activeInHierarchy)
                 {
-                    return ammoDict[ObjectName][i];
+                    return _ammoDict[ObjectName][i];
                 }
             }
         }
         CreateBullet(ObjectName);
-        if (ammoDict[ObjectName].Count > 0)
+        if (_ammoDict.ContainsKey(ObjectName))
         {
-            return ammoDict[ObjectName][ammoDict[ObjectName].Count - 1];
+            return _ammoDict[ObjectName][_ammoDict[ObjectName].Count - 1];
         }
         else
         {
